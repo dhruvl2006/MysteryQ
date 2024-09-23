@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import AuthProvider from "@/context/AuthProvider";
+import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
@@ -15,12 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <body>
-          {/* <Toaster /> */}
-          {children}
-        </body>
-      </AuthProvider>
+      <body className="bg-slate-200 dark:bg-slate-950">
+        <Navbar />
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }
