@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,11 +19,22 @@ import { messageSchema } from "@/schemas/messageSchema";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { questions } from "../../../question";
-import { Send, SendIcon } from "lucide-react";
+import { Loader2, SendIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const SendMessage = () => {
   const { toast } = useToast();
   const params = useParams<{ username: string }>();
+  const { data: session } = useSession();
+  const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    if (session && session.user) {
+      setUser(true);
+    } else {
+      setUser(false);
+    }
+  }, [session]);
 
   const [suggestMessages, setSuggestMessages] = useState<string[]>([]);
   const [isSending, setIsSending] = useState(false);
@@ -38,7 +48,7 @@ const SendMessage = () => {
   });
 
   async function onSubmit(data: z.infer<typeof messageSchema>) {
-    // setIsSending(true);
+    setIsSending(true);
     try {
       const response = await axios.post(`/api/sendMessage`, {
         username: params.username,
@@ -69,18 +79,21 @@ const SendMessage = () => {
         });
       }
       form.setValue("content", "");
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = (error as Error).message;
       toast({
         title: `Failed to send message`,
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
+    } finally {
+      setIsSending(false);
     }
   }
 
   async function fetchSuggestedMessages() {
     try {
-      const randomSuggestions: any = [];
+      const randomSuggestions: string[] = [];
 
       for (let i = 0; i < 5; i++) {
         const randomIndex = Math.floor(Math.random() * questions.length);
@@ -93,10 +106,11 @@ const SendMessage = () => {
         setSuggestMessages(randomSuggestions);
         setShowAnimation(true);
       }, 100);
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = (error as Error).message;
       toast({
         title: "Failed to suggest messages",
-        description: error.message,
+        description: errorMessage,
       });
     }
   }
@@ -139,7 +153,15 @@ const SendMessage = () => {
             className="flex justify-center items-center gap-2 px-5 py-3 text-white  dark:bg-slate-500 dark:hover:bg-slate-600 rounded-md shadow-lg transition-colors duration-300"
             type="submit"
           >
-            Send <SendIcon className="w-5 h-5" />
+            {isSending ? (
+              <>
+                <Loader2 className="mr-2 animate-spin" /> Sending...
+              </>
+            ) : (
+              <>
+                Send <SendIcon className="w-5 h-5" />
+              </>
+            )}
           </Button>
         </form>
       </Form>
@@ -170,11 +192,11 @@ const SendMessage = () => {
       {/* Message Board Section */}
       <div className="flex justify-center items-center gap-6 flex-col border border-slate-300 dark:border-slate-700 rounded-md p-5 sm:p-7 w-full xl:w-2/3 bg-slate-100 dark:bg-slate-900 shadow-lg transition-colors duration-300">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-          Get Your Message Board
+          {user ? "Go to Dashboard" : "Get Your Message Board"}
         </h1>
         <Button className="text-white dark:bg-slate-500 dark:hover:bg-slate-600 px-5 py-3 rounded-md shadow-lg transition-colors duration-300">
-          <a target="_blank" href="/signUp">
-            Create Account
+          <a target="_blank" href={user ? "/dashboard" : "/signUp"}>
+            {user ? "Dashboard" : "Create Account"}
           </a>
         </Button>
       </div>

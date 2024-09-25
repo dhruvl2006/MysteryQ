@@ -17,15 +17,12 @@ import { ApiResponse } from "@/types/apiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ForgetPasswordPage = () => {
   const { toast } = useToast();
-  const router = useRouter();
-  const [usernameMessage, setUsernameMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -96,15 +93,6 @@ const ForgetPasswordPage = () => {
                         className="bg-gray-50 dark:bg-gray-700 dark:text-gray-300 w-full text-lg"
                       />
                     </FormControl>
-                    <p
-                      className={`text-sm ${
-                        usernameMessage === "You found one...!!!"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {usernameMessage}
-                    </p>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,15 +19,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import {
-  Delete,
-  DeleteIcon,
-  RemoveFormatting,
-  Trash,
-  Trash2,
-  Trash2Icon,
-  X,
-} from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import { Message } from "@/model/user.model";
 import { useToast } from "@/components/hooks/use-toast";
 import axios from "axios";
@@ -36,10 +27,11 @@ import { ApiResponse } from "@/types/apiResponse";
 
 type MessageCardProp = {
   message: Message;
-  onMessageDelete: (messageId: any) => void;
+  onMessageDelete: (messageId: string) => void;
+  key: string;
 };
 
-const MessageCard = ({ message, onMessageDelete }: MessageCardProp) => {
+const MessageCard = ({ key, message, onMessageDelete }: MessageCardProp) => {
   const { toast } = useToast();
 
   const handleDeleteConfirm = async () => {
@@ -53,7 +45,10 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProp) => {
   };
 
   return (
-    <Card className="flex justify-between items-start border shadow-lg p-4 rounded-lg bg-white dark:bg-gray-800 ">
+    <Card
+      key={key}
+      className="flex justify-between items-start border shadow-lg p-4 rounded-lg bg-white dark:bg-gray-800 "
+    >
       <div className="flex flex-col justify-between gap-5 h-full">
         <CardHeader className="flex flex-col m-0 p-0 text-xl gap-2 font-bold">
           Message from {message.name}
@@ -73,20 +68,20 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProp) => {
             <Trash2Icon />
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="rounded-lg bg-[#09090b] p-6">
+        <AlertDialogContent className="rounded-lg bg-slate-200 text-black dark:text-white dark:bg-slate-900 p-6">
           <AlertDialogHeader className="mb-4">
             <AlertDialogTitle className="text-xl font-semibold text-red-600 dark:text-red-400">
               Are you sure?
             </AlertDialogTitle>
 
-            <AlertDialogDescription className="text-sm text-gray-300 dark:text-gray-400 mt-2">
+            <AlertDialogDescription className="text-sm text-gray-900 dark:text-gray-200 mt-2">
               This action cannot be undone. This will permanently delete your
               message.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          <AlertDialogFooter className="flex justify-end space-x-4">
-            <AlertDialogCancel className="text-gray-200 hover:text-gray-400 transition-colors">
+          <AlertDialogFooter className="flex flex-col sm:flex-row justify-end sm:items-end sm:space-x-4 space-y-3">
+            <AlertDialogCancel className="text-gray-900 dark:text-gray-300 dark:hover:bg-slate-800 dark:hover:text-gray-100 hover:text-gray-950 border border-slate-400 dark:border-slate-700 transition-colors">
               Cancel
             </AlertDialogCancel>
 

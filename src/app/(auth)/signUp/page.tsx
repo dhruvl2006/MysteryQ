@@ -12,7 +12,6 @@ import { ApiResponse } from "@/types/apiResponse";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,7 +23,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "@/components/toggleTheme";
 
-const page = () => {
+const Page = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -87,7 +86,7 @@ const page = () => {
       setIsSubmiitting(false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast({
         title: "SignUp Failed",
         description: errorMessage,
@@ -205,4 +204,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

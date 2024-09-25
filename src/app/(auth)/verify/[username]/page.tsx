@@ -34,12 +34,6 @@ const VerifyAccount = () => {
     resolver: zodResolver(verifySchema),
   });
 
-  const FormSchema = z.object({
-    code: z.string().min(6, {
-      message: "Your one-time password must be 6 characters.",
-    }),
-  });
-
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
       const response = await axios.post(`/api/verifyCode`, {
@@ -64,7 +58,7 @@ const VerifyAccount = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast({
         title: "Verification Failed",
         description: errorMessage,

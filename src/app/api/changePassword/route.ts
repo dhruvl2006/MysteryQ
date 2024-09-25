@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -27,11 +27,15 @@ export async function POST(request: Request) {
     if (typeof token !== "string" || !token) {
       throw new Error("Invalid token format");
     }
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not defined");
+    }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     console.log(decoded);
 
-    const username = decoded.name;
+    const username = (decoded as { name: string }).name;
 
     const user = await UserModel.findOne({
       $or: [{ username: username }, { email: username }],
@@ -80,16 +84,16 @@ export async function POST(request: Request) {
         { status: 404 }
       );
     }
-  } catch (error: any) {
-    console.log("Error:", error.message);
+  } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log("Error:", errorMessage);
 
-    // Handle token-specific errors
-    if (error.name === "JsonWebTokenError") {
+    if (errorMessage === "JsonWebTokenError") {
       return NextResponse.json(
         { success: false, message: "Invalid token." },
         { status: 401 }
       );
-    } else if (error.name === "TokenExpiredError") {
+    } else if (errorMessage === "TokenExpiredError") {
       return NextResponse.json(
         { success: false, message: "Token has expired." },
         { status: 401 }

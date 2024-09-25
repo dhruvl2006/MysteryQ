@@ -1,11 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
-import bcrypt from "bcryptjs";
-import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 import { verifyUserforPassword } from "@/helpers/verifyUserforPassowrd";
 import { NextResponse } from "next/server";
-
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   await dbConnect();

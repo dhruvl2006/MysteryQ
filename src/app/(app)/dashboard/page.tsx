@@ -10,9 +10,9 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { ApiResponse } from "@/types/apiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { Clipboard, Copy, Loader2, RefreshCcw } from "lucide-react";
+import { Copy, Loader2, RefreshCcw } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const DashBoard = () => {
@@ -127,7 +127,7 @@ const DashBoard = () => {
   }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white dark:bg-slate-900 rounded shadow-lg sm:w-full max-w-6xl">
+    <div className="my-8 mx-4 xl:mx-auto p-6 bg-white dark:bg-slate-900 rounded shadow-lg xl:w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-6 text-gray-900 dark:text-slate-100">
         User Dashboard
       </h1>
@@ -188,7 +188,7 @@ const DashBoard = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {messages.length > 0 ? (
-            messages.map((message: any) => (
+            messages.map((message: Message) => (
               <MessageCard
                 key={message._id}
                 message={message}
