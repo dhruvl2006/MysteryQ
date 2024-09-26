@@ -111,7 +111,10 @@ const DashBoard = () => {
   };
 
   const { username } = session?.user || {};
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const baseUrl =
+    typeof window !== "undefined"
+      ? `${window.location.protocol}//${window.location.host}`
+      : "";
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
