@@ -8,14 +8,17 @@ import {
   Section,
   Text,
   Button,
-} from '@react-email/components';
+} from "@react-email/components";
 
 interface VerificationEmailProps {
   username: string;
   otp: string;
 }
 
-export default function VerificationEmail({ username, otp }: VerificationEmailProps) {
+export default function VerificationEmail({
+  username,
+  otp,
+}: VerificationEmailProps) {
   return (
     <Html lang="en" dir="ltr">
       <Head>
@@ -24,44 +27,43 @@ export default function VerificationEmail({ username, otp }: VerificationEmailPr
           fontFamily="Roboto"
           fallbackFontFamily="Verdana"
           webFont={{
-            url: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2',
-            format: 'woff2',
+            url: "https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2",
+            format: "woff2",
           }}
           fontWeight={400}
           fontStyle="normal"
         />
       </Head>
       <Preview>Here&apos;s your verification code: {otp}</Preview>
-      <Section style={{ backgroundColor: '#f4f4f4', padding: '20px', borderRadius: '8px' }}>
-        <Row style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <Heading as="h1" style={{ color: '#333', fontSize: '24px' }}>Welcome, {username}!</Heading>
+      <Section
+        style={{
+          backgroundColor: "#f4f4f4",
+          padding: "20px",
+          borderRadius: "8px",
+        }}
+      >
+        <Row style={{ textAlign: "center", marginBottom: "20px" }}>
+          <Heading as="h1" style={{ color: "#333", fontSize: "24px" }}>
+            Welcome, {username}!
+          </Heading>
         </Row>
-        <Row style={{ textAlign: 'center', marginBottom: '10px' }}>
-          <Text style={{ fontSize: '16px', color: '#666' }}>
-            Please use the following verification code to complete your registration:
+        <Row style={{ textAlign: "center", marginBottom: "10px" }}>
+          <Text style={{ fontSize: "16px", color: "#666" }}>
+            Please use the following verification code to complete your
+            registration:
           </Text>
         </Row>
-        <Row style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <Text style={{ fontSize: '20px', fontWeight: 'bold', color: '#61dafb' }}>{otp}</Text>
+        <Row style={{ textAlign: "center", marginBottom: "20px" }}>
+          <Text
+            style={{ fontSize: "20px", fontWeight: "bold", color: "#61dafb" }}
+          >
+            {otp}
+          </Text>
         </Row>
-        <Row style={{ textAlign: 'center', marginBottom: '10px' }}>
-          <Text style={{ fontSize: '14px', color: '#999' }}>
+        <Row style={{ textAlign: "center", marginBottom: "10px" }}>
+          <Text style={{ fontSize: "14px", color: "#999" }}>
             If you did not request this code, please ignore this email.
           </Text>
-        </Row>
-        <Row style={{ textAlign: 'center' }}>
-          <Button
-            href={`http://localhost:3000/verify/${username}`}
-            style={{
-              backgroundColor: '#61dafb',
-              color: '#fff',
-              borderRadius: '5px',
-              padding: '10px 20px',
-              textDecoration: 'none',
-            }}
-          >
-            Verify Your Account
-          </Button>
         </Row>
       </Section>
     </Html>

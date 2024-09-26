@@ -55,7 +55,7 @@ export default function verifyUserEmail({
         </Row>
         <Row style={{ textAlign: "center" }}>
           <Button
-            href={`http://localhost:3000/changePassword/${token}`}
+            href={`https://mystery-q.vercel.app/changePassword/${token}`}
             style={{
               backgroundColor: "#61dafb",
               color: "#fff",
